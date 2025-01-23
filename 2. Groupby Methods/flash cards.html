@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flash Cards for Groupby Methods</title>
+    <link type="image/x-icon" rel="shortcut icon" href=".\image.png" />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Roboto:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background: linear-gradient(45deg, #306998, #ff6584);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        margin: 0;
+        padding: 0;
+        direction: ltr;
+        overflow: hidden;
+      }
+
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+
+        50% {
+          background-position: 100% 50%;
+        }
+
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      h1 {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 36px;
+        font-weight: 600;
+        color: #fff;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      h3 {
+        text-align: center;
+        font-size: 26px;
+        font-weight: 400;
+        color: #fff;
+        margin-bottom: 30px;
+      }
+
+      .flashcards-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        padding: 20px;
+        margin-top: 30px;
+      }
+
+      .flashcard {
+        width: 250px;
+        height: 350px;
+        background-color: #ffffff;
+        background-image: url("https://miro.medium.com/v2/resize:fit:1200/1*x0sPJXvxwGT8S7JB0ZuSIw.png");
+        background-size: contain;
+        background-repeat: no-repeat;
+        border-radius: 15px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        perspective: 1000px;
+        transition: transform 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
+      }
+
+      .flashcard-inner {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s;
+      }
+
+      .flashcard-front,
+      .flashcard-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+      }
+
+      .flashcard-front {
+        background-color: #306998;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 20px;
+        transition: transform 0.3s ease;
+      }
+
+      .flashcard-back {
+        font-family: "Roboto", sans-serif;
+        background-color: #ff6584;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        font-weight: bold;
+        font-style: italic;
+        transform: rotateY(180deg);
+        padding: 20px;
+      }
+
+      .flashcard:hover .flashcard-inner {
+        transform: rotateY(180deg);
+      }
+
+      .flashcard:hover {
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        transform: scale(1.05);
+      }
+
+      .arrow-btn {
+        font-size: 30px;
+        background-color: transparent;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .arrow-btn:hover {
+        transform: scale(1.2);
+        color: #1abc9c;
+      }
+
+      .arrow-left {
+        margin-right: 20px;
+      }
+
+      .arrow-right {
+        margin-left: 20px;
+      }
+
+      .flashcard-number {
+        font-size: 18px;
+        margin-top: 20px;
+        text-align: center;
+        color: #ffffff;
+        font-weight: bold;
+      }
+
+      .star {
+        position: absolute;
+        background-color: #fff;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: twinkle 1.5s infinite ease-in-out, move 10s linear infinite;
+      }
+
+      .flashcard-controls {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .flashcard-controls button {
+        margin: 0;
+        padding: 12px 25px;
+        background-color: #302270;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .flashcard-controls button:hover {
+        background-color: #12124a;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      button {
+        padding: 12px 25px;
+        margin: 10px 0;
+        background-color: #ff6584;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      .incorrect-cards-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        padding: 20px;
+        max-width: 100%;
+        max-height: 300px;
+        overflow: auto;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+      }
+
+      .incorrect-card {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        padding: 20px;
+        text-align: left;
+        transition: transform 0.3s ease;
+        overflow: hidden;
+      }
+
+      .incorrect-card:hover {
+        transform: scale(1.05);
+      }
+
+      .incorrect-card h4 {
+        margin-bottom: 10px;
+        font-size: 18px;
+        color: #0d2a49;
+      }
+
+      .incorrect-card p {
+        font-size: 16px;
+        color: #333;
+        word-wrap: break-word;
+      }
+
+      .percentage-container {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #96d2a4;
+      }
+
+      button {
+        margin-top: 20px;
+        padding: 12px 25px;
+        background-color: #23456a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      }
+
+      button:hover {
+        background-color: #0056b3;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      @keyframes twinkle {
+        0% {
+          opacity: 0.8;
+        }
+
+        50% {
+          opacity: 1;
+        }
+
+        100% {
+          opacity: 0.8;
+        }
+      }
+
+      @keyframes move {
+        0% {
+          transform: translateY(0) translateX(0);
+        }
+
+        100% {
+          transform: translateY(100vh) translateX(100vw);
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .flashcards-container {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        h3 {
+          font-size: 18px;
+        }
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    />
+    <script
+      src="https://kit.fontawesome.com/d5c6986420.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <h1>GroupBy in pandas</h1>
+    <h3>Flash Cards for Groupby Methods <i class="fab fa-panda"></i></h3>
+
+    <div class="flashcard-number" id="card-number"></div>
+
+    <div class="flashcards-container">
+      <!-- <button class="arrow-btn arrow-left" onclick="moveSlide(-1)">
+        &#8592;
+      </button> -->
+
+      <div id="flashcards"></div>
+
+      <!-- <button class="arrow-btn arrow-right" onclick="moveSlide(1)">
+        &#8594;
+      </button> -->
+    </div>
+
+    <script>
+      let currentIndex = 0;
+
+      const flashcardslist = [
+        {
+          question:
+            "The aggregate() method can only use pre-defined aggregation functions like sum and mean. (True/False)",
+          answer: "False",
+          type: "trueFalse",
+        },
+        {
+          question:
+            "The filter() method in pandas allows you to include or exclude groups based on a condition. (True/False)",
+          answer: "True",
+          type: "trueFalse",
+        },
+        {
+          question: `Which of the following methods in pandas GroupBy can modify the original DataFrame?
+            <br>
+            a) aggregate()
+            <br>
+            b) filter()
+            <br>
+            c) transform()
+            <br>
+            d) apply()`,
+          answer: "transform()",
+          type: "multipleChoice",
+          options: ["aggregate()", "filter()", "transform()", "apply()"],
+        },
+        {
+          question:
+            "Which pandas GroupBy method is useful for applying custom functions to each group?<br>a) aggregate()<br>b) filter()<br>c) transform()<br>d) apply()",
+          answer: "apply()",
+          type: "multipleChoice",
+          options: ["aggregate()", "filter()", "transform()", "apply()"],
+        },
+        {
+          question: `What does the filter() method do in pandas?<br>a) Groups data by column values.<br>b) Filters groups based on a condition<br>c) Applies a custom function to each group.<br>d) Aggregates data across groups.`,
+          answer: "Filters groups based on a condition.",
+          type: "multipleChoice",
+          options: [
+            "Groups data by column values.",
+            "Filters groups based on a condition.",
+            "Applies a custom function to each group.",
+            "Aggregates data across groups.",
+          ],
+        },
+        {
+          question: "What does the aggregate() method do in pandas GroupBy?",
+          answer:
+            "The aggregate() method applies aggregation functions like sum, mean, or count to groups of data, returning a DataFrame with aggregated values.",
+          type: "text",
+        },
+        {
+          question: "How would you use the filter() method with GroupBy?",
+          answer:
+            "The filter() method is used to include or exclude groups based on a condition. It allows you to filter out groups that don't meet the criteria.",
+          type: "text",
+        },
+        {
+          question: "What is the purpose of the transform() method in GroupBy?",
+          answer:
+            "The transform() method applies a function to each group and returns a DataFrame with the same shape as the original, making it useful for element-wise transformations.",
+          type: "text",
+        },
+        {
+          question: "When would you use the apply() method in GroupBy?",
+          answer:
+            "The apply() method applies a custom function to each group and returns the result. It's useful for more complex operations that can't be done with predefined aggregation functions.",
+          type: "text",
+        },
+        {
+          question:
+            "What is the output of aggregate(['sum', 'mean']) for grouped sales data?",
+          answer:
+            "The output will show the sum and mean of the sales values for each group/category in the dataset.",
+          type: "text",
+        },
+        {
+          question:
+            "How can you filter out categories with sales greater than a specific amount using filter()?",
+          answer:
+            "You can use filter() with a lambda function to filter out groups where the sum of sales exceeds a specified threshold.",
+          type: "text",
+        },
+        {
+          question:
+            "Explain how transform() can calculate the percentage of each sale within a group.",
+          answer:
+            "Using transform(), you can calculate each sale's percentage contribution to the total sales within its group, by dividing the sale amount by the sum of sales in the same group.",
+          type: "text",
+        },
+        {
+          question:
+            "Give an example of using apply() to find the largest difference in sales within each category.",
+          answer:
+            "You can use apply() with a lambda function to calculate the difference between the maximum and minimum sales for each category in the dataset.",
+          type: "text",
+        },
+      ];
+
+      function moveSlide(direction) {
+        const flashcards = document.querySelectorAll(".flashcard");
+        const totalCards = flashcards.length;
+        currentIndex = (currentIndex + direction + totalCards) % totalCards;
+        flashcards.forEach((card, index) => {
+          card.style.display = index === currentIndex ? "block" : "none";
+        });
+        updateCardNumber();
+      }
+
+      let incorrectCards = [];
+
+      function fillcards() {
+        const flashcards = document.getElementById("flashcards");
+        let allflashcards = ``;
+
+        for (let i = 0; i < flashcardslist.length; i++) {
+          allflashcards += `
+          <div class="flashcard" style="display: ${
+            i === 0 ? "block" : "none"
+          };" onclick="toggleFlip(event)">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">${flashcardslist[i].question}</div>
+              <div class="flashcard-back">${flashcardslist[i].answer}</div>
+            </div>
+            <div class="flashcard-controls" id="controls-${i}" style="display: none;">
+              <button onclick="markCorrect(${i})">Correct</button>
+              <button onclick="markIncorrect(${i})">Incorrect</button>
+            </div>
+          </div>`;
+        }
+
+        flashcards.innerHTML = allflashcards;
+        updateCardNumber();
+      }
+
+      function toggleFlip(event) {
+        const card = event.currentTarget;
+        const inner = card.querySelector(".flashcard-inner");
+        inner.style.transform =
+          inner.style.transform === "rotateY(180deg)"
+            ? "rotateY(0deg)"
+            : "rotateY(180deg)";
+
+        const controls = card.querySelector(".flashcard-controls");
+        const currentDisplay = controls.style.display;
+
+        if (currentDisplay === "block") {
+          controls.style.display = "none";
+        } else {
+          controls.style.display = "block";
+        }
+      }
+
+      function moveSlide(direction) {
+        const flashcards = document.querySelectorAll(".flashcard");
+        const totalCards = flashcards.length;
+        currentIndex = (currentIndex + direction + totalCards) % totalCards;
+        flashcards.forEach((card, index) => {
+          card.style.display = index === currentIndex ? "block" : "none";
+        });
+        updateCardNumber();
+      }
+
+      function markCorrect(index) {
+        flashcardslist[index].correct = true;
+        moveSlide(1);
+        checkCompletion();
+      }
+
+      function markIncorrect(index) {
+        flashcardslist[index].correct = false;
+        incorrectCards.push(flashcardslist[index]);
+        saveIncorrectAnswers(
+          flashcardslist[index].question,
+          flashcardslist[index].answer
+        );
+        moveSlide(1);
+        checkCompletion();
+      }
+
+      function checkCompletion() {
+        if (currentIndex === 0) {
+          showIncorrectCards();
+        }
+      }
+
+      function showIncorrectCards() {
+        const flashcards = document.getElementById("flashcards");
+        const totalCards = flashcardslist.length;
+        const correctAnswers = totalCards - incorrectCards.length;
+        const correctPercentage = ((correctAnswers / totalCards) * 100).toFixed(
+          2
+        );
+
+        if (incorrectCards.length === 0) {
+          flashcards.innerHTML = `
+            <p style="text-align: center; font-size: 18px;">Great job! You answered all questions correctly.</p>
+            <p style="text-align: center; font-size: 18px;">Your correct answer percentage: ${correctPercentage}%</p>`;
+        } else {
+          let incorrectHTML = `
+            <div class="percentage-container">Your correct answer percentage: ${correctPercentage}%</div>
+            <div class="incorrect-cards-container">`;
+
+          incorrectCards.forEach((card) => {
+            incorrectHTML += `
+              <div class="incorrect-card">
+                <h4>Question:</h4>
+                <p>${card.question}</p>
+                <h4>Correct Answer:</h4>
+                <p>${card.answer}</p>
+              </div>`;
+          });
+
+          incorrectHTML += `
+            </div>
+            <div style="text-align: center;">
+              <button onclick="restartQuiz()">Retry</button>
+              <button onclick="downloadPDF()">Download PDF</button>
+            </div>
+            `;
+          flashcards.innerHTML = incorrectHTML;
+        }
+      }
+
+      function restartQuiz() {
+        incorrectCards = [];
+        currentIndex = 0;
+        fillcards();
+      }
+
+      function saveIncorrectAnswers(question, answer) {
+        let incorrectAnswers =
+          JSON.parse(localStorage.getItem("incorrectAnswers2")) || [];
+        incorrectAnswers.push({ question, answer });
+        localStorage.setItem(
+          "incorrectAnswers2",
+          JSON.stringify(incorrectAnswers)
+        );
+      }
+
+      function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        let incorrectAnswers =
+          JSON.parse(localStorage.getItem("incorrectAnswers2")) || [];
+
+        if (incorrectAnswers.length === 0) {
+          alert("No incorrect answers to generate PDF!");
+          return;
+        }
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("Incorrect Answers Report", 105, 10, null, null, "center");
+
+        doc.setLineWidth(0.5);
+        doc.line(10, 15, 200, 15);
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+
+        let yPosition = 25;
+        const pageHeight = 290;
+        const pageWidth = 180; // عرض الصفحة (الحدود القابلة للكتابة)
+        let questionsAdded = new Set();
+
+        incorrectAnswers.forEach((item, index) => {
+          let questionText = item.question
+            .replace(/<br>/g, "\n")
+            .replace(/[\x00-\x1F\x7F]/g, "")
+            .replace("💠", "")
+            .replace("🏃🏻‍♀️‍➡️", "");
+          let answerText = item.answer
+            .replace(/<br>/g, "\n")
+            .replace(/[\x00-\x1F\x7F]/g, "")
+            .replace("💠", "")
+            .replace("🏃🏻‍♀️‍➡️", "");
+
+          if (questionsAdded.has(questionText)) {
+            return;
+          }
+
+          questionsAdded.add(questionText);
+
+          // قسم النص إلى أسطر تناسب عرض الصفحة
+          let splitQuestion = doc.splitTextToSize(
+            `Question ${index + 1}: ${questionText}`,
+            pageWidth
+          );
+          let splitAnswer = doc.splitTextToSize(
+            `Correct Answer: ${answerText}`,
+            pageWidth
+          );
+
+          if (
+            yPosition + splitQuestion.length * 8 + splitAnswer.length * 8 >
+            pageHeight - 40
+          ) {
+            doc.addPage();
+            yPosition = 20;
+          }
+
+          doc.setTextColor(0, 0, 255);
+          doc.text(splitQuestion, 10, yPosition);
+          yPosition += splitQuestion.length * 8;
+
+          doc.setTextColor(255, 0, 0);
+          doc.text(splitAnswer, 10, yPosition);
+          yPosition += splitAnswer.length * 8;
+
+          if (index < incorrectAnswers.length - 1) {
+            doc.setLineWidth(0.3);
+            doc.line(10, yPosition + 2, 200, yPosition + 2);
+            yPosition += 8;
+          }
+        });
+
+        doc.setTextColor(0, 0, 0);
+        doc.text(
+          `Total Incorrect Answers: ${incorrectAnswers.length}`,
+          10,
+          yPosition + 10
+        );
+
+        doc.save("incorrect_answers_report.pdf");
+      }
+
+      function updateCardNumber() {
+        const totalCards = document.querySelectorAll(".flashcard").length;
+        const cardNumberElement = document.getElementById("card-number");
+        cardNumberElement.textContent = `Card ${
+          currentIndex + 1
+        } of ${totalCards}`;
+      }
+
+      // نجوم 🤸🏻‍♀️
+      function generateStars(numStars) {
+        const body = document.querySelector("body");
+        for (let i = 0; i < numStars; i++) {
+          const star = document.createElement("div");
+          star.classList.add("star");
+          const size = Math.random() * 3 + 2 + "px";
+          const topPosition = Math.random() * 100 + "%";
+          const leftPosition = Math.random() * 100 + "%";
+          star.style.width = size;
+          star.style.height = size;
+          star.style.top = topPosition;
+          star.style.left = leftPosition;
+          star.style.animationDuration = Math.random() * 3 + 2 + "s";
+          body.appendChild(star);
+        }
+      }
+
+      fillcards();
+      generateStars(50);
+      moveSlide(0);
+    </script>
+  </body>
+</html>

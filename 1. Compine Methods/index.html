@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare concat(), merge(), and join() in Pandas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABQ4fFfFZXyNxNvbXfBl1FoOxzFO6PpNeIX4m6bjl2bGFdaVAbpY4N4" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+    integrity="sha384-ka7Sk0G9r+z5NE7aaK0I0K4paTVeeVfFJdzZY2HL+9ALzjVY/jd+f6fXnXgUlH23"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="styles.css" />
+
+</head>
+
+<body>
+  <header>
+    <h1>Comparing concat(), merge(), and join() in Pandas</h1>
+    <p class="text-center">
+      A comprehensive guide to understanding the differences between these three essential Pandas functions with
+      detailed examples and explanations.
+    </p>
+  </header>
+
+  <!-- Table of Contents Section -->
+  <section id="toc" class="section-title">
+    <h2>Table of Contents</h2>
+    <ul>
+      <li><a href="#summary">Summary Comparison</a></li>
+      <li><a href="#concat">concat()</a></li>
+      <li><a href="#merge">merge()</a></li>
+      <li><a href="#join">join()</a></li>
+    </ul>
+  </section>
+
+  <!-- Tables Section -->
+  <section id="tables" class="section-title">
+    <h2>Tables Used in the Examples</h2>
+    <p>
+      The following tables will be used in all examples in this guide. They contain realistic and useful data to
+      demonstrate the differences between <code>concat()</code>, <code>merge()</code>, and <code>join()</code>.
+    </p>
+  </section>
+
+  <!-- First Table -->
+  <table>
+    <caption>Table 1: Employees</caption>
+    <thead>
+      <tr>
+        <th>Employee ID</th>
+        <th>Name</th>
+        <th>Department</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>101</td>
+        <td>Fatimah Al-Zahrani</td>
+        <td>Finance</td>
+      </tr>
+      <tr>
+        <td>102</td>
+        <td>Ahmed Al-Zahrani</td>
+        <td>Human Resources</td>
+      </tr>
+      <tr>
+        <td>103</td>
+        <td>Mohammed Al-Zahrani</td>
+        <td>IT</td>
+      </tr>
+      <tr>
+        <td>104</td>
+        <td>Sheikha Al-Zahrani</td>
+        <td>Marketing</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Second Table -->
+  <table>
+    <caption>Table 2: Salaries</caption>
+    <thead>
+      <tr>
+        <th>Employee ID</th>
+        <th>Salary</th>
+        <th>Bonus</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>101</td>
+        <td>5000</td>
+        <td>500</td>
+      </tr>
+      <tr>
+        <td>102</td>
+        <td>6000</td>
+        <td>400</td>
+      </tr>
+      <tr>
+        <td>103</td>
+        <td>7000</td>
+        <td>600</td>
+      </tr>
+      <tr>
+        <td>105</td>
+        <td>8000</td>
+        <td>700</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <section id="intro">
+    <p style="text-align: center;">
+      The following examples will use these two tables to clarify the differences between <code>concat()</code>,
+      <code>merge()</code>, and <code>join()</code>. Understanding these tables is essential to follow the examples.
+    </p>
+  </section>
+  <!-- Concatenate Section -->
+  <section id="concat" class="section-title">
+    <h2>1. The <code>concat()</code> Function</h2>
+  </section>
+  <div class="row">
+    <div class="col-12">
+      <p>
+        <strong>Purpose:</strong> The <code>concat()</code> function is used to concatenate two or more DataFrames along
+        a specific axis, either rows or columns. It is commonly used for combining datasets when you want to stack or
+        add new rows/columns.
+      </p>
+      <p>
+        <strong>Key Features:</strong>
+      <ul>
+        <li>Works with both DataFrames and Series.</li>
+        <li>Allows concatenation along rows (<code>axis=0</code>) or columns (<code>axis=1</code>).</li>
+        <li>Handles duplicate indices by default, but you can reset or ignore them using the <code>ignore_index</code>
+          parameter.</li>
+      </ul>
+      </p>
+      <a href="https://www.geeksforgeeks.org/pandas-concat-function-in-python/" target="_blank">
+        <button class="example-button" data-bs-toggle="tooltip" title="Concatenate along rows or columns."
+          id="concatBtn">
+          Learn More
+        </button>
+      </a>
+
+      <div class="code-section">
+        <p><strong>Example Code:</strong></p>
+        <div style="position: relative;">
+          <button class="copy-btn" onclick="copyToClipboard(this)"
+            style="position: absolute; top: 10px; right: 10px; padding: 5px 10px; background-color: #66d9ef; border: none; color: white; border-radius: 5px; cursor: pointer;">
+            Copy
+          </button>
+          <pre class="code"> <code class="language-python">
+import pandas as pd
+
+# DataFrames based on the example tables
+df_employees = pd.DataFrame({
+    'Employee ID': [101, 102, 103, 104],
+    'Name': ['Fatimah Al-Zahrani', 'Ahmed Al-Zahrani', 'Mohammed Al-Zahrani', 'Sheikha Al-Zahrani'],
+    'Department': ['Finance', 'Human Resources', 'IT', 'Marketing']
+})
+
+df_salaries = pd.DataFrame({
+    'Employee ID': [101, 102, 103, 105],
+    'Salary': [5000, 6000, 7000, 8000],
+    'Bonus': [500, 400, 600, 700]
+})
+
+# Concatenate along rows (axis=0)
+result = pd.concat([df_employees, df_salaries], ignore_index=True)
+
+print(result)
+</code>
+      </pre>
+        </div>
+        <p><strong>Output:</strong></p>
+        <pre class="code">
+    Employee ID                Name          Department  Salary  Bonus
+0          101  Fatimah Al-Zahrani             Finance     NaN    NaN
+1          102    Ahmed Al-Zahrani     Human Resources     NaN    NaN
+2          103  Mohammed Al-Zahrani                  IT     NaN    NaN
+3          104   Sheikha Al-Zahrani          Marketing     NaN    NaN
+4          101                  NaN                NaN   5000    500
+5          102                  NaN                NaN   6000    400
+6          103                  NaN                NaN   7000    600
+7          105                  NaN                NaN   8000    700
+      </pre>
+        <p>
+          <strong>Explanation:</strong> In this example, the <code>concat()</code> function is used to combine the two
+          tables, <code>Employees</code> and <code>Salaries</code>. Since they have different columns, <code>NaN</code>
+          values are inserted where data is missing. This demonstrates how concatenation works by stacking the rows of
+          one DataFrame below the other.
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- Merge Section -->
+  <section id="merge" class="section-title">
+    <h2>2. The <code>merge()</code> Function</h2>
+  </section>
+  <div class="row">
+    <div class="col-12">
+      <p>
+        <strong>Purpose:</strong> The <code>merge()</code> function is used to combine two DataFrames based on a common
+        column or index, similar to SQL joins (e.g., inner join, outer join, left join, right join). It allows for
+        flexible and powerful data alignment.
+      </p>
+      <p>
+        <strong>Key Features:</strong>
+      <ul>
+        <li>Supports various join types: <code>inner</code>, <code>outer</code>, <code>left</code>, and
+          <code>right</code>.</li>
+        <li>Merges can be based on one or multiple columns or indices.</li>
+        <li>Customizable suffixes to handle overlapping column names.</li>
+      </ul>
+      </p>
+      <a href="https://www.w3schools.com/python/pandas/ref_df_merge.asp" target="_blank">
+        <button class="example-button" data-bs-toggle="tooltip" title="Perform SQL-style joins between DataFrames."
+          id="mergeBtn">
+          Learn More
+        </button>
+      </a>
+
+      <div class="code-section">
+        <p><strong>Example Code:</strong></p>
+        <div style="position: relative;">
+          <button class="copy-btn" onclick="copyToClipboard(this)"
+            style="position: absolute; top: 10px; right: 10px; padding: 5px 10px; background-color: #66d9ef; border: none; color: white; border-radius: 5px; cursor: pointer;">
+            Copy
+          </button>
+          <pre class="code"> <code class="language-python">
+import pandas as pd
+# DataFrames based on the example tables
+df_employees = pd.DataFrame({
+    'Employee ID': [101, 102, 103, 104],
+    'Name': ['Fatimah Al-Zahrani', 'Ahmed Al-Zahrani', 'Mohammed Al-Zahrani', 'Sheikha Al-Zahrani'],
+    'Department': ['Finance', 'Human Resources', 'IT', 'Marketing']
+})
+
+df_salaries = pd.DataFrame({
+    'Employee ID': [101, 102, 103, 105],
+    'Salary': [5000, 6000, 7000, 8000],
+    'Bonus': [500, 400, 600, 700]
+})
+
+# Merge the DataFrames on 'Employee ID' column (inner join by default)
+result_inner = pd.merge(df_employees, df_salaries, on='Employee ID')
+
+# Merge the DataFrames with a left join
+result_left = pd.merge(df_employees, df_salaries, on='Employee ID', how='left')
+
+print("Inner Join Result:")
+print(result_inner)
+
+print("\nLeft Join Result:")
+print(result_left)
+</code>
+      </pre>
+        </div>
+        <p><strong>Output (Inner Join):</strong></p>
+        <pre class="code">
+   Employee ID                Name          Department  Salary  Bonus
+0          101  Fatimah Al-Zahrani             Finance   5000    500
+1          102    Ahmed Al-Zahrani     Human Resources   6000    400
+2          103  Mohammed Al-Zahrani                  IT   7000    600
+      </pre>
+        <p><strong>Output (Left Join):</strong></p>
+        <pre class="code">
+   Employee ID                Name          Department  Salary  Bonus
+0          101  Fatimah Al-Zahrani             Finance   5000  500.0
+1          102    Ahmed Al-Zahrani     Human Resources   6000  400.0
+2          103  Mohammed Al-Zahrani                  IT   7000  600.0
+3          104   Sheikha Al-Zahrani          Marketing    NaN    NaN
+      </pre>
+        <p>
+          <strong>Explanation:</strong>
+        <ul>
+          <li>
+            In the <strong>inner join</strong>, only rows with matching <code>Employee ID</code> values in both
+            DataFrames are included. Thus, the row for <code>Employee ID 105</code> from <code>df_salaries</code> and
+            <code>Employee ID 104</code> from <code>df_employees</code> are excluded.
+          </li>
+          <li>
+            In the <strong>left join</strong>, all rows from the left DataFrame (<code>df_employees</code>) are
+            retained, even if there's no match in the right DataFrame (<code>df_salaries</code>). Missing values in the
+            right DataFrame are filled with <code>NaN</code>.
+          </li>
+          <li>This example illustrates how merging is used to combine datasets with related but not identical
+            information.</li>
+        </ul>
+        </p>
+        <img src="image.png" width="500px" />
+      </div>
+    </div>
+  </div>
+  
+  <!-- Join Section -->
+  <section id="join" class="section-title">
+    <h2>3. The <code>join()</code> Function</h2>
+  </section>
+  <div class="row">
+    <div class="col-12">
+      <p>
+        <strong>Purpose:</strong> The <code>join()</code> function is used to combine two DataFrames based on their
+        indices or a specified key column. It is particularly useful for index-based merges and simplifies the process
+        when the indices of both DataFrames are aligned or need alignment.
+      </p>
+      <p>
+        <strong>Key Features:</strong>
+      <ul>
+        <li>Default behavior joins DataFrames on their indices.</li>
+        <li>Supports different join types: <code>left</code>, <code>right</code>, <code>outer</code>, and
+          <code>inner</code>.</li>
+        <li>Customizable suffixes for overlapping column names.</li>
+      </ul>
+      </p>
+      <a href="https://www.w3schools.com/python/pandas/ref_df_join.asp" target="_blank">
+        <button class="example-button" data-bs-toggle="tooltip" title="Join DataFrames on indices or key column."
+          id="joinBtn">
+          Learn More
+        </button>
+      </a>
+
+      <div class="code-section">
+        <p><strong>Example Code:</strong></p>
+        <div style="position: relative;">
+          <button class="copy-btn" onclick="copyToClipboard(this)"
+            style="position: absolute; top: 10px; right: 10px; padding: 5px 10px; background-color: #66d9ef; border: none; color: white; border-radius: 5px; cursor: pointer;">
+            Copy
+          </button>
+          <pre class="code"> <code class="language-python">
+import pandas as pd
+
+# Create two DataFrames: one with employee details and another with salary information
+df_employees = pd.DataFrame({
+    'Employee ID': [101, 102, 103, 104],
+    'Name': ['Fatimah Al-Zahrani', 'Ahmed Al-Zahrani', 'Mohammed Al-Zahrani', 'Sheikha Al-Zahrani'],
+    'Department': ['Finance', 'Human Resources', 'IT', 'Marketing']
+})
+
+df_salaries = pd.DataFrame({
+    'Employee ID': [101, 102, 103, 105],
+    'Salary': [5000, 6000, 7000, 8000],
+    'Bonus': [500, 400, 600, 700]
+})
+
+# Join the DataFrames on 'Employee ID'
+result = df_employees.set_index('Employee ID').join(df_salaries.set_index('Employee ID'))
+
+print(result)
+</code>
+      </pre>
+        </div>
+        <p><strong>Output:</strong></p>
+        <pre class="code">
+                    Name            Department  Salary  Bonus
+Employee ID                                           
+101      Fatimah Al-Zahrani       Finance    5000    500
+102      Ahmed Al-Zahrani   Human Resources    6000    400
+103  Mohammed Al-Zahrani           IT    7000    600
+104      Sheikha Al-Zahrani   Marketing    NaN     NaN
+      </pre>
+        <p>
+          <strong>Explanation:</strong>
+        <ul>
+          <li>The <code>join()</code> function is used here to combine the <code>df_employees</code> and
+            <code>df_salaries</code> DataFrames using their common column
+            <code>Employee ID</> as the index. Both DataFrames are first set to have <code>Employee ID</code> as their
+            index using <code>set_index()</code>.</li>
+          <li>The rows from the <code>df_employees</code> DataFrame are retained, while the corresponding salary and
+            bonus data from the <code>df_salaries</code> DataFrame is added based on matching <code>Employee ID</code>.
+          </li>
+          <li>For <code>Employee ID 104</code>, there is no corresponding entry in <code>df_salaries</code>, so the
+            resulting columns for <code>Salary</code> and <code>Bonus</code> are <code>NaN</code> for that row.</li>
+        </ul>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Table Section -->
+  <section id="summary" class="section-title">
+    <h2>Summary Comparison Between <code>concat()</code>, <code>merge()</code>, and <code>join()</code></h2>
+  </section>
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Function</th>
+            <th>Purpose</th>
+            <th>Key Features</th>
+            <th>Limitations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>concat()</code></td>
+            <td>Concatenate DataFrames along a specified axis (horizontal or vertical)</td>
+            <td>
+              <ul>
+                <li>Concatenates DataFrames along specific axes.</li>
+                <li>Can concatenate multiple DataFrames at once.</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Requires compatible data structure.</li>
+                <li>Does not support merging data based on columns.</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><code>merge()</code></td>
+            <td>Merge DataFrames based on one or more columns</td>
+            <td>
+              <ul>
+                <li>Supports different types of joins (inner, outer, left, right).</li>
+                <li>Allows customization of columns used for merging.</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Slower compared to <code>concat()</code> in some cases.</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td><code>join()</code></td>
+            <td>Merge DataFrames based on the index</td>
+            <td>
+              <ul>
+                <li>Faster than <code>merge()</code> when merging based on index.</li>
+                <li>Supports merging the index with columns.</li>
+              </ul>
+            </td>
+            <td>
+              <ul>
+                <li>Primarily works on the index and may require customization for column-based merging.</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Interactive Quiz Section -->
+  <div class="section-title">
+    <h2>Test Your Knowledge</h2>
+    <!-- <p>
+          What is the primary difference between concat(), merge(), and
+          join()?
+        </p> -->
+
+    <div class="collapse" id="quiz">
+      <div class="card card-body mt-3">
+        <!-- Question 1 -->
+        <p>
+          <strong>Question 1:</strong> Which function would you use to
+          combine two DataFrames based on a common column?
+        </p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz1" id="mergeOption1" value="merge" />
+          <label class="form-check-label" for="mergeOption1">merge()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz1" id="concatOption1" value="concat" />
+          <label class="form-check-label" for="concatOption1">concat()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz1" id="joinOption1" value="join" />
+          <label class="form-check-label" for="joinOption1">join()</label>
+        </div>
+
+        <!-- Question 2 -->
+        <p>
+          <strong>Question 2:</strong> Which function is best for combining
+          DataFrames along a particular axis, without considering index or
+          column labels?
+        </p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz2" id="concatOption2" value="concat" />
+          <label class="form-check-label" for="concatOption2">concat()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz2" id="mergeOption2" value="merge" />
+          <label class="form-check-label" for="mergeOption2">merge()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz2" id="joinOption2" value="join" />
+          <label class="form-check-label" for="joinOption2">join()</label>
+        </div>
+
+        <!-- Question 3 -->
+        <p>
+          <strong>Question 3:</strong> Which function is more suited for
+          combining DataFrames based on the index?
+        </p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz3" id="joinOption3" value="join" />
+          <label class="form-check-label" for="joinOption3">join()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz3" id="mergeOption3" value="merge" />
+          <label class="form-check-label" for="mergeOption3">merge()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz3" id="concatOption3" value="concat" />
+          <label class="form-check-label" for="concatOption3">concat()</label>
+        </div>
+
+        <!-- Additional Questions -->
+        <p>
+          <strong>Question 4:</strong> Which function allows you to specify
+          the type of join (inner, outer, etc.)?
+        </p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz4" id="mergeOption4" value="merge" />
+          <label class="form-check-label" for="mergeOption4">merge()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz4" id="concatOption4" value="concat" />
+          <label class="form-check-label" for="concatOption4">concat()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz4" id="joinOption4" value="join" />
+          <label class="form-check-label" for="joinOption4">join()</label>
+        </div>
+
+        <!-- Question 5 -->
+        <p>
+          <strong>Question 5:</strong> Which function would you use to
+          combine DataFrames with different columns but the same index?
+        </p>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz5" id="joinOption5" value="join" />
+          <label class="form-check-label" for="joinOption5">join()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz5" id="concatOption5" value="concat" />
+          <label class="form-check-label" for="concatOption5">concat()</label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="quiz5" id="mergeOption5" value="merge" />
+          <label class="form-check-label" for="mergeOption5">merge()</label>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="example-button mt-3" onclick="checkAnswers()">
+          Submit Answers
+        </button>
+        <div id="quizFeedback" class="mt-3"></div>
+        <button class="example-button mt-3" id="downloadPDFBtn" style="display: none">
+          Download PDF
+        </button>
+      </div>
+    </div>
+  </div>
+  <footer class="text-center mt-5">
+    <p>Created by Fatimah Alzahrani</p>
+  </footer>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    let wrongAnswers = [];
+
+    const explanations = {
+      quiz1:
+        "Use merge() to combine two DataFrames based on a common column.",
+      quiz2:
+        "concat() is used to concatenate DataFrames along a particular axis.",
+      quiz3: "join() is used to join DataFrames based on the index.",
+      quiz4:
+        "merge() allows you to specify the type of join (inner, outer, etc.).",
+      quiz5:
+        "join() is used to combine DataFrames with different columns but the same index.",
+    };
+
+    const questions = {
+      quiz1:
+        "Which function would you use to combine two DataFrames based on a common column?",
+      quiz2:
+        "Which function is best for combining DataFrames along a particular axis, without considering index or column labels?",
+      quiz3:
+        "Which function is more suited for combining DataFrames based on the index?",
+      quiz4:
+        "Which function allows you to specify the type of join (inner, outer, etc.)?",
+      quiz5:
+        "Which function would you use to combine DataFrames with different columns but the same index?",
+    };
+
+    function checkAnswers() {
+      const feedback = document.getElementById("quizFeedback");
+      let correct = 0;
+
+      // Check answers and track wrong answers
+      wrongAnswers = [];
+
+      for (let q in questions) {
+        const selectedOption = document.querySelector(
+          `input[name="${q}"]:checked`
+        );
+        const correctAnswer = {
+          quiz1: "merge",
+          quiz2: "concat",
+          quiz3: "join",
+          quiz4: "merge",
+          quiz5: "join",
+        }[q];
+
+        if (selectedOption && selectedOption.value === correctAnswer) {
+          correct++;
+        } else {
+          wrongAnswers.push({
+            question: questions[q],
+            wrongAnswer: selectedOption
+              ? selectedOption.value
+              : "None selected",
+            correctAnswer: correctAnswer,
+            explanation: explanations[q],
+          });
+        }
+      }
+
+      // Display feedback based on the score
+      if (correct === 5) {
+        feedback.textContent = "Excellent! You got all the answers correct!";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = `You got ${correct} out of 5 correct.`;
+        feedback.style.color = "orange";
+        if (wrongAnswers.length > 0) {
+          document.getElementById("downloadPDFBtn").style.display = "inline";
+        }
+      }
+    }
+
+    document
+      .getElementById("downloadPDFBtn")
+      .addEventListener("click", function () {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        doc.setFontSize(12);
+        doc.text("Quiz Results Review", 20, 20);
+        doc.setTextColor(0, 0, 128); 
+
+        let yPosition = 30; 
+
+        wrongAnswers.forEach((answer, index) => {
+          doc.setTextColor(0, 0, 0); 
+          const questionText = `Question: ${answer.question}`;
+          const margin1 = 20;
+          const maxWidth1 = 170;
+
+          doc
+            .splitTextToSize(questionText, maxWidth1)
+            .forEach((line, lineIndex) => {
+              doc.text(line, margin1, yPosition + lineIndex * 10);
+            });
+
+          yPosition +=
+            (doc.splitTextToSize(questionText, maxWidth1).length + 1) * 10;
+
+          doc.setTextColor(255, 0, 0);
+          doc.text(`Wrong Answer: ${answer.wrongAnswer}`, margin1, yPosition);
+          yPosition += 10;
+
+          doc.setTextColor(0, 128, 0); 
+          doc.text(
+            `Correct Answer: ${answer.correctAnswer}`,
+            margin1,
+            yPosition
+          );
+          yPosition += 10;
+
+          doc.setTextColor(95, 112, 178); 
+          const explanationText = `Explanation: ${answer.explanation}`;
+          const maxWidth = 170;
+
+          doc
+            .splitTextToSize(explanationText, maxWidth)
+            .forEach((line, lineIndex) => {
+              doc.text(line, margin1, yPosition + lineIndex * 10);
+            });
+
+          yPosition +=
+            (doc.splitTextToSize(explanationText, maxWidth).length + 1) * 10; 
+        });
+
+        doc.save("quiz_review.pdf");
+      });
+
+    function copyToClipboard(button) {
+      const preElement = button.nextElementSibling;
+      const codeText = preElement.innerText;
+
+      navigator.clipboard.writeText(codeText).then(() => {
+        button.innerText = "Copied!";
+        setTimeout(() => {
+          button.innerText = "Copy";
+        }, 2000);
+      }).catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-python.min.js"></script>
+</body>
+
+</html>
