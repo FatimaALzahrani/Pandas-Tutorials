@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="تعلم كيفية استخدام GroupBy في بايثون لتحليل البيانات بشكل فعال باستخدام pandas."
+    />
+    <meta name="keywords" content="بايثون، pandas، GroupBy، تحليل البيانات" />
+    <title>فهم GroupBy في بايثون</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Rubik:300,300i,400,400i,700,700i&display=swap");
+
+      * {
+        font-family: Rubik;
+      }
+      main{
+        text-align: right !important;
+      }
+
+      body {
+        background-color: #f8f9fa;
+        animation: fadeIn 1s ease-in-out;
+        overflow-x: hidden;
+        margin: 0;
+        padding: 0;
+        background: #f9f9f9;
+        color: #333;
+        overflow-x: hidden;
+        direction: rtl;
+      }
+      .language-python , .output pre{
+        direction: ltr;
+        text-align: left !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav id="menu">
+      <input
+        type="checkbox"
+        id="responsive-menu"
+        onclick="updatemenu()"
+      /><label></label>
+      <ul>
+        <li><a href="#introduction">مقدمة</a></li>
+        <li><a href="#aggregate">aggregate()</a></li>
+        <li><a href="#filter">filter()</a></li>
+        <li><a href="#transform">transform()</a></li>
+        <li><a href="#apply">apply()</a></li>
+        <li><a href="#flash">بطاقات التعلم</a></li>
+        <li><a href="./index.html">EN</a></li>
+      </ul>
+    </nav>
+
+    <header class="hero">
+      <div class="container">
+        <h1>GroupBy في بايثون</h1>
+        <p>
+          تعلم كيفية تحليل البيانات بشكل فعال باستخدام
+          <code>pandas</code> وطرق مثل <code>aggregate()</code>،
+          <code>filter()</code>، <code>transform()</code>، و
+          <code>apply()</code>.
+        </p>
+        <a href="#introduction" class="btn">ابدأ التعلم</a>
+      </div>
+    </header>
+
+    <!-- مربع البحث -->
+    <input type="text" id="search" placeholder="ابحث في الأقسام..." />
+
+    <!-- المحتوى الرئيسي -->
+    <main>
+      <section id="introduction">
+        <h2>مقدمة</h2>
+        <p>
+          الكائن <code>GroupBy</code> في <code>pandas</code> هو أداة قوية لتجميع
+          وتحليل البيانات. باستخدام طرق مثل <code>aggregate()</code>،
+          <code>filter()</code>، <code>transform()</code>، و
+          <code>apply()</code>، يمكنك إجراء العمليات على مجموعات بياناتك بكفاءة.
+        </p>
+      </section>
+
+      <section id="aggregate" class="method-section">
+        <h2>aggregate()</h2>
+        <p>
+          طريقة <code>aggregate()</code> تطبق دوال التجميع مثل <code>sum</code>،
+          <code>mean</code>، أو <code>count</code> على مجموعات البيانات.
+        </p>
+        <p>
+          <strong>مثال من العالم الحقيقي:</strong> حساب إجمالي ومتوسط المبيعات
+          حسب الفئة.
+        </p>
+        <div class="code-example" data-aos="fade-up">
+          <div style="position: relative">
+            <button
+              class="copy-btn"
+              onclick="copyToClipboard(this)"
+              style="
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                background-color: #66d9ef;
+                border: none;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+              "
+            >
+              نسخ
+            </button>
+            <pre><code class="language-python">
+      import pandas as pd
+      
+      # بيانات المبيعات
+      data = {'Category': ['إلكترونيات', 'ملابس', 'إلكترونيات', 'ملابس'],
+              'Sales': [1500, 1200, 1700, 800]}
+      
+      df = pd.DataFrame(data)
+      
+      # التجميع حسب الفئة
+      grouped = df.groupby('Category')
+      result = grouped.aggregate(['sum', 'mean'])
+      
+      print(result)
+          </code></pre>
+          </div>
+        </div>
+        <p><strong>الناتج:</strong></p>
+        <div class="output">
+          <pre>
+            Sales
+            sum   mean
+            Category                    
+            ملابس      2000  1000.0
+            إلكترونيات   3200  1600.0
+          </pre>
+        </div>
+        <p class="read-more">
+          <a
+            href="https://www.w3schools.com/python/pandas/ref_df_aggregate.asp"
+            class="btn"
+            >اقرأ المزيد</a
+          >
+        </p>
+      </section>
+
+      <section id="filter" class="method-section">
+        <h2>filter()</h2>
+        <p>
+          استخدم <code>filter()</code> لتضمين أو استبعاد المجموعات بناءً على
+          شرط.
+        </p>
+        <p>
+          <strong>مثال من العالم الحقيقي:</strong> عرض الفئات التي تتجاوز
+          مبيعاتها الإجمالية 2500.
+        </p>
+        <div class="code-example" data-aos="fade-up">
+          <div style="position: relative">
+            <button
+              class="copy-btn"
+              onclick="copyToClipboard(this)"
+              style="
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                background-color: #66d9ef;
+                border: none;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+              "
+            >
+              نسخ
+            </button>
+            <pre><code class="language-python">
+      # تصفية الفئات التي تتجاوز مبيعاتها 2500
+      filtered = grouped.filter(lambda x: x['Sales'].sum() > 2500)
+      print(filtered)
+      </code>
+          </pre>
+          </div>
+        </div>
+        <p><strong>الناتج:</strong></p>
+        <div class="output">
+          <pre>
+      Category       Sales
+      إلكترونيات    1500
+      إلكترونيات    1700
+          </pre>
+        </div>
+        <p class="read-more">
+          <a
+            href="https://www.w3schools.com/python/pandas/ref_df_filter.asp"
+            class="btn"
+            >اقرأ المزيد</a
+          >
+        </p>
+      </section>
+
+      <section id="transform" class="method-section">
+        <h2>transform()</h2>
+        <p>
+          تطبق طريقة <code>transform()</code> دالة على كل مجموعة وتعيد DataFrame
+          بنفس الشكل الأصلي.
+        </p>
+        <p>
+          <strong>مثال من العالم الحقيقي:</strong> حساب نسبة كل عملية بيع من
+          إجمالي المبيعات في فئتها.
+        </p>
+        <div class="code-example" data-aos="fade-up">
+          <div style="position: relative">
+            <button
+              class="copy-btn"
+              onclick="copyToClipboard(this)"
+              style="
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                background-color: #66d9ef;
+                border: none;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+              "
+            >
+              نسخ
+            </button>
+            <pre><code class="language-python">
+      # حساب نسبة المبيعات
+      df['Percent'] = grouped['Sales'].transform(lambda x: x / x.sum() * 100)
+      print(df)
+    </code>
+      </pre>
+          </div>
+        </div>
+        <p><strong>الناتج:</strong></p>
+        <div class="output">
+          <pre>
+      Category       Sales      Percent
+      إلكترونيات    1500       46.88
+      إلكترونيات    1700       53.12
+      ملابس       1200       60.00
+      ملابس        800       40.00
+          </pre>
+        </div>
+        <p class="read-more">
+          <a
+            href="https://www.w3schools.com/python/pandas/ref_df_transform.asp"
+            class="btn"
+            >اقرأ المزيد</a
+          >
+        </p>
+      </section>
+
+      <section id="apply" class="method-section">
+        <h2>apply()</h2>
+        <p>
+          تطبق طريقة <code>apply()</code> دالة مخصصة على كل مجموعة وتعيد
+          النتيجة.
+        </p>
+        <p>
+          <strong>مثال من العالم الحقيقي:</strong> العثور على أكبر فرق مبيعات
+          داخل كل فئة.
+        </p>
+        <div class="code-example" data-aos="fade-up">
+          <div style="position: relative">
+            <button
+              class="copy-btn"
+              onclick="copyToClipboard(this)"
+              style="
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                padding: 5px 10px;
+                background-color: #66d9ef;
+                border: none;
+                color: white;
+                border-radius: 5px;
+                cursor: pointer;
+              "
+            >
+              نسخ
+            </button>
+            <pre><code class="language-python">
+      # حساب أكبر فرق مبيعات في كل فئة
+      result = grouped.apply(lambda x: x['Sales'].max() - x['Sales'].min())
+      print(result)
+      </code>
+          </pre>
+          </div>
+        </div>
+        <p><strong>الناتج:</strong></p>
+        <div class="output">
+          <pre>
+      Category
+      ملابس          400
+      إلكترونيات     200
+      </pre
+          >
+        </div>
+        <p class="read-more">
+          <a
+            href="https://www.w3schools.com/python/pandas/ref_df_apply.asp"
+            class="btn"
+            >اقرأ المزيد</a
+          >
+        </p>
+      </section>
+
+      <section id="summary">
+        <h2>الملخص</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>الطريقة</th>
+              <th>الوصف</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>aggregate()</td>
+              <td>تطبق دوال التجميع مثل الجمع والمتوسط على البيانات المجمعة.</td>
+            </tr>
+            <tr>
+              <td>filter()</td>
+              <td>تقوم بتصفية المجموعات بناءً على شرط معين.</td>
+            </tr>
+            <tr>
+              <td>transform()</td>
+              <td>تطبق دالة على كل مجموعة دون تغيير شكل البيانات الأصلي.</td>
+            </tr>
+            <tr>
+              <td>apply()</td>
+              <td>تطبق دالة مخصصة على كل مجموعة من البيانات.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>      
+    </main>
+
+    <p class="flash-cards-btn" id="flash">
+      <a href="flash cards.html" class="btn">اختبر فهمك باستخدام البطاقات التعليمية</a>
+    </p>
+  </main>
+
+  <footer>
+    <p>Created by Fatimah Alzahrani</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/components/prism-python.min.js"></script>
+
+<script src="script.js"></script>
+  </body>
+</html>

@@ -13,6 +13,19 @@
 </head>
 
 <body>
+  <nav id='menu'>
+    <input type='checkbox' id='responsive-menu' onclick='updatemenu()'><label></label>
+    <ul>
+      <li><a href='#introduction'>Introduction</a></li>
+      <li><a href='#aggregate'>aggregate()</a></li>
+      <li><a href='#filter'>filter()</a></li>
+      <li><a href='#transform'>transform()</a></li>
+      <li><a href='#apply'>apply()</a></li>
+      <li><a href='#flash'>Flash Cards</a></li>
+      <li><a href="./ar.html" id="ar">العربية</a></li>
+    </ul>
+  </nav>
+
   <header class="hero">
     <div class="container">
       <h1>GroupBy in Python</h1>
@@ -25,19 +38,7 @@
       <a href="#introduction" class="btn">Start Learning</a>
     </div>
   </header>
-
-  <!-- Navigation Menu -->
-  <nav class="navbar">
-    <ul>
-      <li><a href="#introduction">Introduction</a></li>
-      <li><a href="#aggregate">aggregate()</a></li>
-      <li><a href="#filter">filter()</a></li>
-      <li><a href="#transform">transform()</a></li>
-      <li><a href="#apply">apply()</a></li>
-      <li><a href="#flash">Flash Cards</a></li>
-    </ul>
-  </nav>
-
+  
   <!-- Search Box -->
   <input type="text" id="search" placeholder="Search sections..." />
 
@@ -52,10 +53,10 @@
         <code>transform()</code>, and <code>apply()</code>, you can
         efficiently perform operations on subsets of your dataset.
       </p>
-      <p>
+      <!-- <p>
         Below, we use real-world examples such as sales analysis, payroll
         calculations, and customer data insights.
-      </p>
+      </p> -->
     </section>
 
     <section id="aggregate" class="method-section">

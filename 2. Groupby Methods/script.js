@@ -38,3 +38,12 @@ function copyToClipboard(button) {
       console.error("Failed to copy text: ", err);
     });
 }
+
+function updatemenu() {
+  if (document.getElementById("responsive-menu").checked == true) {
+    document.getElementById("menu").style.borderBottomRightRadius = "0";
+    document.getElementById("menu").style.borderBottomLeftRadius = "0";
+  } else {
+    document.getElementById("menu").style.borderRadius = "0px";
+  }
+}
