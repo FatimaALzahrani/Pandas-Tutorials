@@ -209,8 +209,8 @@ const translations = {
     summary: "Summary Comparison",
     functionHeader: "Function",
     purposeHeader: "Purpose",
-    featuresHeader: "Key Features",
-    limitationsHeader: "Limitations",
+    featuresHeader: "Key Features:",
+    limitationsHeader: "Limitations:",
     concatPurpose:
       "Merges DataFrames along a specified axis (horizontal or vertical)",
     concatFeatures:
@@ -227,6 +227,55 @@ const translations = {
       "<ul><li>Faster than merge() when merging based on index.</li><li>Supports merging the index with columns.</li></ul>",
     joinLimitations:
       "<ul><li>Primarily works on the index and may require customization for column-based merging.</li></ul>",
+    summaryTitle: "Summary Comparison Between concat(), merge(), and join()",
+    featureHeader: "Feature",
+    concatHeader: "concat()",
+    mergeHeader: "merge()",
+    joinHeader: "join()",
+    purposeFeature: "Purpose",
+    concatPurpose:
+      "Merges DataFrames along a specified axis (row-wise or column-wise).",
+    mergePurpose: "Performs SQL-like joins based on common columns or indices.",
+    joinPurpose: "Joins DataFrames using their index.",
+    useCaseFeature: "Primary Use Case",
+    concatUseCase: "Stacking or appending DataFrames.",
+    mergeUseCase: "Combining datasets with key-based relationships.",
+    joinUseCase: "Efficiently joining on index without manual key matching.",
+    defaultBehaviorFeature: "Default Behavior",
+    concatDefault: "Concatenates along rows (axis=0).",
+    mergeDefault: "Performs an inner join by default.",
+    joinDefault: "Performs a left join by default.",
+    joinTypeFeature: "Join Type Supported",
+    concatJoinType: "Not applicable (direct concatenation).",
+    mergeJoinType: "inner, outer, left, right.",
+    joinJoinType: "inner, outer, left, right.",
+    indexHandlingFeature: "Index Handling",
+    concatIndexHandling:
+      "Keeps original index unless ignore_index=True is used.",
+    mergeIndexHandling:
+      "Can merge on index or column with on, left_on, right_on.",
+    joinIndexHandling:
+      "Uses index by default but can specify a column with on=.",
+    duplicatesFeature: "Duplicates Handling",
+    concatDuplicates: "Retains all rows unless manually removed.",
+    mergeDuplicates: "Keeps duplicate rows unless handled separately.",
+    joinDuplicates: "Duplicates remain unless manually handled.",
+    nanFeature: "NaN Handling",
+    concatNaN: "Preserves NaN values unless fillna() is used.",
+    mergeNaN: "Introduces NaNs for non-matching keys in outer joins.",
+    joinNaN: "Introduces NaNs for missing index matches unless how='inner'.",
+    multiIndexFeature: "MultiIndex Support",
+    concatMultiIndex: "Yes, supports MultiIndex concatenation.",
+    mergeMultiIndex: "Yes, supports MultiIndex merging.",
+    joinMultiIndex: "Yes, primarily for index-based operations.",
+    performanceFeature: "Performance",
+    concatPerformance: "Faster for simple stacking operations.",
+    mergePerformance: "Slower due to key-based lookups.",
+    joinPerformance: "Faster than merge() for index-based joins.",
+    exampleFeature: "Example Usage",
+    concatExample: "pd.concat([df1, df2], axis=0)",
+    mergeExample: "df1.merge(df2, on='key', how='inner')",
+    joinExample: "df1.join(df2, how='left')",
     me: "Created by Fatimah Alzahrani",
     quizTitle: "Test Your Knowledge",
     question1:
@@ -325,6 +374,55 @@ const translations = {
       "<ul><li>أسرع من merge() عند الدمج على الفهرس.</li><li>يدعم دمج الفهرس مع الأعمدة.</li></ul>",
     joinLimitations:
       "<ul><li>يعمل بشكل أساسي على الفهرس وقد يتطلب تخصيصًا للدمج على الأعمدة.</li></ul>",
+    // summaryTitle: "مقارنة تفصيلية بين concat() و merge() و join()",
+    featureHeader: "الميزة",
+    concatHeader: "concat()",
+    mergeHeader: "merge()",
+    joinHeader: "join()",
+    purposeFeature: "الهدف",
+    concatPurpose: "دمج DataFrames على طول محور معين (أفقي أو عمودي).",
+    mergePurpose:
+      "إجراء عمليات دمج على طريقة SQL بناءً على الأعمدة أو الفهارس المشتركة.",
+    joinPurpose: "دمج DataFrames باستخدام الفهرس.",
+    useCaseFeature: "الاستخدام الرئيسي",
+    concatUseCase: "تكديس أو إلحاق DataFrames.",
+    mergeUseCase: "دمج مجموعات البيانات بعلاقات تستند إلى المفاتيح.",
+    joinUseCase: "الانضمام إلى الفهرس بكفاءة دون مطابقة المفاتيح يدويًا.",
+    defaultBehaviorFeature: "السلوك الافتراضي",
+    concatDefault: "يجمع البيانات حسب الصفوف (axis=0).",
+    mergeDefault: "يجري عملية دمج داخلية بشكل افتراضي.",
+    joinDefault: "يجري عملية دمج يسارية بشكل افتراضي.",
+    joinTypeFeature: "نوع الانضمام المدعوم",
+    concatJoinType: "غير متاح (دمج مباشر).",
+    mergeJoinType: "داخلي، خارجي، يساري، يميني.",
+    joinJoinType: "داخلي، خارجي، يساري، يميني.",
+    indexHandlingFeature: "التعامل مع الفهارس",
+    concatIndexHandling:
+      "يحتفظ بالفهرس الأصلي إلا إذا تم استخدام ignore_index=True.",
+    mergeIndexHandling:
+      "يمكن الدمج حسب الفهرس أو العمود باستخدام on، left_on، right_on.",
+    joinIndexHandling:
+      "يستخدم الفهرس بشكل افتراضي ولكنه يسمح بتحديد العمود باستخدام on=.",
+    duplicatesFeature: "التعامل مع التكرارات",
+    concatDuplicates: "يحتفظ بجميع الصفوف ما لم يتم إزالتها يدويًا.",
+    mergeDuplicates: "يحتفظ بالصفوف المكررة ما لم يتم التعامل معها بشكل منفصل.",
+    joinDuplicates: "تظل التكرارات قائمة ما لم يتم التعامل معها يدويًا.",
+    nanFeature: "التعامل مع القيم الفارغة (NaN)",
+    concatNaN: "يحافظ على القيم الفارغة إلا إذا تم استخدام fillna().",
+    mergeNaN: "يُدخل قيم NaN للمفاتيح غير المطابقة في عمليات الدمج الخارجية.",
+    joinNaN: "يُدخل قيم NaN إذا لم يكن هناك تطابق للفهرس إلا في how='inner'.",
+    multiIndexFeature: "دعم MultiIndex",
+    concatMultiIndex: "نعم، يدعم دمج MultiIndex.",
+    mergeMultiIndex: "نعم، يدعم دمج MultiIndex.",
+    joinMultiIndex: "نعم، ولكنه يعتمد على الفهرس بشكل أساسي.",
+    performanceFeature: "الأداء",
+    concatPerformance: "أسرع للعمليات البسيطة الخاصة بتكديس البيانات.",
+    mergePerformance: "أبطأ بسبب عمليات البحث المستندة إلى المفاتيح.",
+    joinPerformance: "أسرع من merge() للانضمام المستند إلى الفهرس.",
+    exampleFeature: "مثال الاستخدام",
+    concatExample: "pd.concat([df1, df2], axis=0)",
+    mergeExample: "df1.merge(df2, on='key', how='inner')",
+    joinExample: "df1.join(df2, how='left')",
     me: "تم إنشائه بواسـطة فاطمة الزهراني",
     quizTitle: "اختبر معرفتك",
     question1: "أي دالة تستخدم لدمج إطارين بيانات استنادًا إلى عمود مشترك؟",
@@ -399,31 +497,31 @@ function changeLanguage(lang) {
   document.getElementById("summary").innerHTML = translations[lang].summary;
   document.getElementById("summaryTitle").innerHTML =
     translations[lang].summaryTitle;
-  document.getElementById("functionHeader").innerHTML =
-    translations[lang].functionHeader;
-  document.getElementById("purposeHeader").innerHTML =
-    translations[lang].purposeHeader;
-  document.getElementById("featuresHeader").innerHTML =
-    translations[lang].featuresHeader;
-  document.getElementById("limitationsHeader").innerHTML =
-    translations[lang].limitationsHeader;
+  //   document.getElementById("functionHeader").innerHTML =
+  //     translations[lang].functionHeader;
+  //   document.getElementById("purposeHeader").innerHTML =
+  //     translations[lang].purposeHeader;
+  //   document.getElementById("featuresHeader").innerHTML =
+  //     translations[lang].featuresHeader;
+  //   document.getElementById("limitationsHeader").innerHTML =
+  //     translations[lang].limitationsHeader;
   document.getElementById("concatPurpose").innerHTML =
     translations[lang].concatPurpose;
-  document.getElementById("concatFeatures").innerHTML =
-    translations[lang].concatFeatures;
+  //   document.getElementById("concatFeatures").innerHTML =
+  //     translations[lang].concatFeatures;
   document.getElementById("concatLimitations").innerHTML =
     translations[lang].concatLimitations;
   document.getElementById("mergePurpose").innerHTML =
     translations[lang].mergePurpose;
-  document.getElementById("mergeFeatures").innerHTML =
-    translations[lang].mergeFeatures;
+  //   document.getElementById("mergeFeatures").innerHTML =
+  //     translations[lang].mergeFeatures;
 
   document.getElementById("mergeLimitations").innerHTML =
     translations[lang].mergeLimitations;
-  document.getElementById("joinPurpose").innerHTML =
-    translations[lang].joinPurpose;
-  document.getElementById("joinFeatures").innerHTML =
-    translations[lang].joinFeatures;
+  //   document.getElementById("joinPurpose").innerHTML =
+  //     translations[lang].joinPurpose;
+  //   document.getElementById("joinFeatures").innerHTML =
+  //     translations[lang].joinFeatures;
 
   document.getElementById("joinLimitations").innerHTML =
     translations[lang].joinLimitations;
@@ -445,6 +543,12 @@ function changeLanguage(lang) {
     featuresElements[i].textContent = translations[lang].features;
   }
 
+  const limitationElements =
+    document.getElementsByClassName("limitationsHeader");
+  for (let i = 0; i < limitationElements.length; i++) {
+    limitationElements[i].textContent = translations[lang].limitationsHeader;
+  }
+
   const copyElements = document.getElementsByClassName("copy");
   for (let i = 0; i < copyElements.length; i++) {
     copyElements[i].textContent = translations[lang].copy;
@@ -463,6 +567,15 @@ function changeLanguage(lang) {
   const explanationElements = document.getElementsByClassName("explanation");
   for (let i = 0; i < explanationElements.length; i++) {
     explanationElements[i].textContent = translations[lang].explanation;
+  }
+
+  for (const key in translations[lang]) {
+    if (translations[lang].hasOwnProperty(key)) {
+      const element = document.getElementById(key);
+      if (element) {
+        element.innerHTML = translations[lang][key];
+      }
+    }
   }
 
   localStorage.setItem("language", lang);

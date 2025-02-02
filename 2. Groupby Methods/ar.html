@@ -57,6 +57,7 @@
         <li><a href="#filter">filter()</a></li>
         <li><a href="#transform">transform()</a></li>
         <li><a href="#apply">apply()</a></li>
+        <li><a href='#summary'>مُلخص</a></li>
         <li><a href="#flash">بطاقات التعلم</a></li>
         <li><a href="./index.html">EN</a></li>
       </ul>
@@ -320,35 +321,91 @@
         </p>
       </section>
 
-      <section id="summary">
-        <h2>الملخص</h2>
+      <div class="table-container" id="summary">
         <table>
-          <thead>
-            <tr>
-              <th>الطريقة</th>
-              <th>الوصف</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>aggregate()</td>
-              <td>تطبق دوال التجميع مثل الجمع والمتوسط على البيانات المجمعة.</td>
-            </tr>
-            <tr>
-              <td>filter()</td>
-              <td>تقوم بتصفية المجموعات بناءً على شرط معين.</td>
-            </tr>
-            <tr>
-              <td>transform()</td>
-              <td>تطبق دالة على كل مجموعة دون تغيير شكل البيانات الأصلي.</td>
-            </tr>
-            <tr>
-              <td>apply()</td>
-              <td>تطبق دالة مخصصة على كل مجموعة من البيانات.</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>      
+            <thead>
+                <tr>
+                    <th id="feature-header">الميزة</th>
+                    <th id="agg-header">تجميع (aggregate())</th>
+                    <th id="filter-header">تصفية (filter())</th>
+                    <th id="transform-header">تحويل (transform())</th>
+                    <th id="apply-header">تطبيق (apply())</th>
+                </tr>
+            </thead>
+            <tbody>
+        <tr>
+            <td id="purpose">الغرض منها</td>
+            <td id="agg-purpose">إجراء عمليات إحصائية مثل الجمع، المتوسط، الحد الأدنى أو الأقصى على المجموعات.</td>
+            <td id="filter-purpose">اختيار المجموعات التي تحقق شرطًا معينًا وإزالة غير المطابقة.</td>
+            <td id="transform-purpose">تعديل البيانات داخل كل مجموعة مع الاحتفاظ بعدد الصفوف كما هو.</td>
+            <td id="apply-purpose">تطبيق دالة مخصصة على مستوى الصفوف أو الأعمدة.</td>
+        </tr>
+        <tr>
+            <td id="use-case">الاستخدام الشائع</td>
+            <td id="agg-use">حساب الإجمالي، المتوسط، أو القيم القصوى لكل مجموعة.</td>
+            <td id="filter-use">الاحتفاظ فقط بالمجموعات التي يتجاوز مجموع قيمها حدًا معينًا.</td>
+            <td id="transform-use">تطبيع القيم أو حساب النسب المئوية داخل كل مجموعة.</td>
+            <td id="apply-use">تنفيذ عمليات مخصصة، مثل تحويل النصوص أو إجراء حسابات معقدة.</td>
+        </tr>
+        <tr>
+            <td id="returns">ما تُرجعه الدالة</td>
+            <td id="agg-returns">قيمة واحدة أو جدول جديد حسب الوظائف المستخدمة.</td>
+            <td id="filter-returns">جزء من البيانات الأصلية بناءً على الشرط.</td>
+            <td id="transform-returns">بيانات بنفس عدد الصفوف الأصلي.</td>
+            <td id="apply-returns">يمكن أن تُرجع أي نوع من البيانات (رقم، نص، جدول...).</td>
+        </tr>
+        <tr>
+            <td id="shape">هل تحافظ على نفس عدد الصفوف؟</td>
+            <td id="agg-shape">لا، يتم تقليل الأبعاد.</td>
+            <td id="filter-shape">لا، يتم حذف الصفوف غير المطابقة.</td>
+            <td id="transform-shape">نعم، تبقى نفس عدد الصفوف.</td>
+            <td id="apply-shape">يمكن أن يتغير الشكل حسب الدالة المستخدمة.</td>
+        </tr>
+        <tr>
+            <td id="groupby">تُستخدم مع groupby؟</td>
+            <td id="agg-groupby">نعم</td>
+            <td id="filter-groupby">نعم</td>
+            <td id="transform-groupby">نعم</td>
+            <td id="apply-groupby">نعم</td>
+        </tr>
+        <tr>
+            <td id="behavior">سلوك الدالة</td>
+            <td id="agg-behavior">تُرجع قيمة موجزة لكل مجموعة.</td>
+            <td id="filter-behavior">تُعيد True للمجموعات التي يجب الاحتفاظ بها وFalse للباقي.</td>
+            <td id="transform-behavior">تُطبق العملية على كل عنصر داخل المجموعة دون تغيير العدد.</td>
+            <td id="apply-behavior">يمكن أن تُنفذ أي عملية على الصفوف أو الأعمدة.</td>
+        </tr>
+        <tr>
+          <td id="example">مثال على الاستخدام</td>
+          <td id="agg-example"><code>df.groupby('Category').agg({'Sales': ['sum', 'mean']})</code></td>
+          <td id="filter-example"><code>df.groupby('Category').filter(lambda x: x['Sales'].sum() > 1000)</code></td>
+          <td id="transform-example"><code>df.groupby('Category')['Sales'].transform(lambda x: x / x.mean())</code></td>
+          <td id="apply-example"><code>df.apply(lambda row: row['Sales'] * 2, axis=1)</code></td>
+      </tr>
+        <tr>
+            <td id="performance">الأداء</td>
+            <td id="agg-performance">سريع عند استخدام الدوال المدمجة.</td>
+            <td id="filter-performance">فعال ولكن يمكن أن يكون بطيئًا عند التعامل مع شروط معقدة.</td>
+            <td id="transform-performance">أسرع من apply() عند العمل على مستوى العنصر.</td>
+            <td id="apply-performance">يمكن أن يكون بطيئًا جدًا إذا لم يُستخدم بكفاءة.</td>
+        </tr>
+        <tr>
+            <td id="multi-func">يدعم استخدام وظائف متعددة؟</td>
+            <td id="agg-multi">نعم</td>
+            <td id="filter-multi">لا</td>
+            <td id="transform-multi">لا</td>
+            <td id="apply-multi">نعم</td>
+        </tr>
+        <tr>
+            <td id="maintains-grouping">هل تحتفظ بتجميع البيانات؟</td>
+            <td id="agg-maintains">لا</td>
+            <td id="filter-maintains">لا</td>
+            <td id="transform-maintains">نعم</td>
+            <td id="apply-maintains">لا</td>
+        </tr>
+    </tbody>
+</table>   
+</div>
     </main>
 
     <p class="flash-cards-btn" id="flash">
@@ -357,7 +414,7 @@
   </main>
 
   <footer>
-    <p>Created by Fatimah Alzahrani</p>
+    <p>تم إنشائة بواسطة فاطمة الزهراني 🏃🏻‍♀️‍➡️</p>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

@@ -149,6 +149,13 @@
         </ul>
       </ul>
       </p>
+      <p>
+        <strong class="limitationsHeader" >Limitations:</strong>
+        <div id="concatLimitations">
+        <ul>
+          <li>Requires matching data structure.</li>
+          <li>Does not support merging on columns.</li>        </ul></div>
+      </p>
       <a href="https://www.geeksforgeeks.org/pandas-concat-function-in-python/" target="_blank">
         <button class="example-button" data-bs-toggle="tooltip" title="Concatenate along rows or columns."
           id="concatBtn">
@@ -227,6 +234,13 @@ print(result)
           <li id="merges_multiple_columns" class="feature-item">Merges can be based on one or multiple columns or indices.</li>
           <li id="customizable_suffixes" class="feature-item">Customizable suffixes to handle overlapping column names.</li>
         </ul>
+      </p>
+      <p>
+        <strong class="limitationsHeader" >Limitations:</strong>
+        <div id="mergeLimitations">
+        <ul>
+          <li>Slower compared to <code>concat()</code> in some cases.</li>
+        </ul></div>
       </p>
       <a href="https://www.w3schools.com/python/pandas/ref_df_merge.asp" target="_blank">
         <button class="example-button" data-bs-toggle="tooltip" title="Perform SQL-style joins between DataFrames."
@@ -328,6 +342,13 @@ print(result_left)
         <li id="join_suffixes">Customizable suffixes for overlapping column names.</li>
       </ul>
       </p>
+      <p>
+        <strong class="limitationsHeader" >Limitations:</strong>
+        <div id="joinLimitations">
+        <ul>
+          <li>Primarily works on the index and may require customization for column-based merging.</li>
+      </ul></div>
+      </p>
       <a href="https://www.w3schools.com/python/pandas/ref_df_join.asp" target="_blank">
         <button class="example-button" data-bs-toggle="tooltip" title="Join DataFrames on indices or key column."
           id="joinBtn">
@@ -393,73 +414,88 @@ Employee ID
   </div>
 
   <!-- Summary Table Section -->
-  <section id="summary" class="section-title">
+  <section id="summary" class="section-title"> 
     <h2 id="summaryTitle">Summary Comparison Between <code>concat()</code>, <code>merge()</code>, and <code>join()</code></h2>
-  </section>
-  <div class="row">
+</section>
+<div class="row">
     <div class="col-12">
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th id="functionHeader">Function</th>
-                        <th id="purposeHeader">Purpose</th>
-                        <th id="featuresHeader">Key Features</th>
-                        <th id="limitationsHeader">Limitations</th>
+                        <th id="featureHeader">Feature</th>
+                        <th id="concatHeader"><code>concat()</code></th>
+                        <th id="mergeHeader"><code>merge()</code></th>
+                        <th id="joinHeader"><code>join()</code></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code>concat()</code></td>
-                        <td id="concatPurpose">Merges DataFrames along a specified axis (horizontal or vertical)</td>
-                        <td id="concatFeatures">
-                            <ul>
-                                <li>Merges DataFrames along specified axes.</li>
-                                <li>Can merge multiple DataFrames at once.</li>
-                            </ul>
-                        </td>
-                        <td id="concatLimitations">
-                            <ul>
-                                <li>Requires matching data structure.</li>
-                                <li>Does not support merging on columns.</li>
-                            </ul>
-                        </td>
+                        <td id="purposeFeature"><strong>Purpose</strong></td>
+                        <td id="concatPurpose">Merges DataFrames along a specified axis (row-wise or column-wise).</td>
+                        <td id="mergePurpose">Performs SQL-like joins based on common columns or indices.</td>
+                        <td id="joinPurpose">Joins DataFrames using their index.</td>
                     </tr>
                     <tr>
-                        <td><code>merge()</code></td>
-                        <td id="mergePurpose">Merge DataFrames based on one or more columns</td>
-                        <td id="mergeFeatures">
-                            <ul>
-                                <li>Supports different types of joins (inner, outer, left, right).</li>
-                                <li>Allows customization of columns used for merging.</li>
-                            </ul>
-                        </td>
-                        <td id="mergeLimitations">
-                            <ul>
-                                <li>Slower compared to <code>concat()</code> in some cases.</li>
-                            </ul>
-                        </td>
+                        <td id="useCaseFeature"><strong>Primary Use Case</strong></td>
+                        <td id="concatUseCase">Stacking or appending DataFrames.</td>
+                        <td id="mergeUseCase">Combining datasets with key-based relationships.</td>
+                        <td id="joinUseCase">Efficiently joining on index without manual key matching.</td>
                     </tr>
                     <tr>
-                        <td><code>join()</code></td>
-                        <td id="joinPurpose">Merge DataFrames based on the index</td>
-                        <td id="joinFeatures">
-                            <ul>
-                                <li>Faster than <code>merge()</code> when merging based on index.</li>
-                                <li>Supports merging the index with columns.</li>
-                            </ul>
-                        </td>
-                        <td id="joinLimitations">
-                            <ul>
-                                <li>Primarily works on the index and may require customization for column-based merging.</li>
-                            </ul>
-                        </td>
+                        <td id="defaultBehaviorFeature"><strong>Default Behavior</strong></td>
+                        <td id="concatDefault">Concatenates along rows (<code>axis=0</code>).</td>
+                        <td id="mergeDefault">Performs an <code>inner</code> join by default.</td>
+                        <td id="joinDefault">Performs a <code>left</code> join by default.</td>
+                    </tr>
+                    <tr>
+                        <td id="joinTypeFeature"><strong>Join Type Supported</strong></td>
+                        <td id="concatJoinType">Not applicable (direct concatenation).</td>
+                        <td id="mergeJoinType"><code>inner</code>, <code>outer</code>, <code>left</code>, <code>right</code>.</td>
+                        <td id="joinJoinType"><code>inner</code>, <code>outer</code>, <code>left</code>, <code>right</code>.</td>
+                    </tr>
+                    <tr>
+                        <td id="indexHandlingFeature"><strong>Index Handling</strong></td>
+                        <td id="concatIndexHandling">Keeps original index unless <code>ignore_index=True</code> is used.</td>
+                        <td id="mergeIndexHandling">Can merge on index or column with <code>on</code>, <code>left_on</code>, <code>right_on</code>.</td>
+                        <td id="joinIndexHandling">Uses index by default but can specify a column with <code>on=</code>.</td>
+                    </tr>
+                    <tr>
+                        <td id="duplicatesFeature"><strong>Duplicates Handling</strong></td>
+                        <td id="concatDuplicates">Retains all rows unless manually removed.</td>
+                        <td id="mergeDuplicates">Keeps duplicate rows unless handled separately.</td>
+                        <td id="joinDuplicates">Duplicates remain unless manually handled.</td>
+                    </tr>
+                    <tr>
+                        <td id="nanFeature"><strong>NaN Handling</strong></td>
+                        <td id="concatNaN">Preserves NaN values unless <code>fillna()</code> is used.</td>
+                        <td id="mergeNaN">Introduces NaNs for non-matching keys in <code>outer</code> joins.</td>
+                        <td id="joinNaN">Introduces NaNs for missing index matches unless <code>how='inner'</code>.</td>
+                    </tr>
+                    <tr>
+                        <td id="multiIndexFeature"><strong>MultiIndex Support</strong></td>
+                        <td id="concatMultiIndex">Yes, supports MultiIndex concatenation.</td>
+                        <td id="mergeMultiIndex">Yes, supports MultiIndex merging.</td>
+                        <td id="joinMultiIndex">Yes, primarily for index-based operations.</td>
+                    </tr>
+                    <tr>
+                        <td id="performanceFeature"><strong>Performance</strong></td>
+                        <td id="concatPerformance">Faster for simple stacking operations.</td>
+                        <td id="mergePerformance">Slower due to key-based lookups.</td>
+                        <td id="joinPerformance">Faster than <code>merge()</code> for index-based joins.</td>
+                    </tr>
+                    <tr>
+                        <td id="exampleFeature"><strong>Example Usage</strong></td>
+                        <td id="concatExample"><code>pd.concat([df1, df2], axis=0)</code></td>
+                        <td id="mergeExample"><code>df1.merge(df2, on='key', how='inner')</code></td>
+                        <td id="joinExample"><code>df1.join(df2, how='left')</code></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    
+</div>
+
   <!-- Interactive Quiz Section -->
   <div class="section-title">
     <h2 id="quizTitle">Test Your Knowledge</h2>

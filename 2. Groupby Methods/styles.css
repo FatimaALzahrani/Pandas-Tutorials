@@ -332,7 +332,7 @@ pre {
   background-color: #213688;
   transform: scale(1.05);
 }
-
+/* 
 #summary {
   margin-top: 50px;
   padding: 30px;
@@ -364,7 +364,6 @@ pre {
 #summary th {
   background-color: #395574;
   color: #fff;
-  /* text-transform: uppercase; */
 }
 
 #summary tr:nth-child(even) {
@@ -375,7 +374,7 @@ pre {
   background-color: #e9ecef;
   cursor: pointer;
   transition: background-color 0.3s ease;
-}
+} */
 
 .flash-cards-btn {
   display: flex;
@@ -401,4 +400,35 @@ pre {
 
 #ar{
   font-family: Rubik;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 900px;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+th {
+  background-color: #ff6584;
+  color: white;
+}
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+@media (max-width: 768px) {
+  th, td {
+      font-size: 14px;
+      padding: 8px;
+  }
 }

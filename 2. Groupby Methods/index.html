@@ -21,6 +21,7 @@
       <li><a href='#filter'>filter()</a></li>
       <li><a href='#transform'>transform()</a></li>
       <li><a href='#apply'>apply()</a></li>
+      <li><a href='#summary'>Summary</a></li>
       <li><a href='#flash'>Flash Cards</a></li>
       <li><a href="./ar.html" id="ar">العربية</a></li>
     </ul>
@@ -226,40 +227,91 @@
       </p>
     </section>
 
-    <section id="summary">
-      <h2>Summary</h2>
+    <div class="table-container" id="summary">
       <table>
-        <thead>
-          <tr>
-            <th>Method</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>aggregate()</td>
-            <td>
-              Applies aggregation functions like sum and mean on grouped data.
-            </td>
-          </tr>
-          <tr>
-            <td>filter()</td>
-            <td>Filters groups based on a condition.</td>
-          </tr>
-          <tr>
-            <td>transform()</td>
-            <td>
-              Applies a function to each group without changing the original
-              data shape.
-            </td>
-          </tr>
-          <tr>
-            <td>apply()</td>
-            <td>Applies a custom function to each group of data.</td>
-          </tr>
-        </tbody>
+          <thead>
+              <tr>
+                  <th id="feature-header">Feature</th>
+                  <th id="agg-header">aggregate()</th>
+                  <th id="filter-header">filter()</th>
+                  <th id="transform-header">transform()</th>
+                  <th id="apply-header">apply()</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                  <td id="purpose">Purpose</td>
+                  <td id="agg-purpose">Aggregates numerical data using multiple functions.</td>
+                  <td id="filter-purpose">Filters groups based on a condition.</td>
+                  <td id="transform-purpose">Applies a function element-wise while keeping the same shape.</td>
+                  <td id="apply-purpose">Applies a function along rows or columns.</td>
+              </tr>
+              <tr>
+                  <td id="use-case">Typical Use Case</td>
+                  <td id="agg-use">Summing, averaging, or finding min/max values for groups.</td>
+                  <td id="filter-use">Keeping only groups that meet a condition.</td>
+                  <td id="transform-use">Standardizing or normalizing data within groups.</td>
+                  <td id="apply-use">Applying custom functions row-wise or column-wise.</td>
+              </tr>
+              <tr>
+                  <td id="returns">Returns</td>
+                  <td id="agg-returns">A scalar or DataFrame depending on the functions used.</td>
+                  <td id="filter-returns">A subset of the original data.</td>
+                  <td id="transform-returns">A Series or DataFrame of the same shape.</td>
+                  <td id="apply-returns">A Series, DataFrame, or scalar.</td>
+              </tr>
+              <tr>
+                  <td id="shape">Shape Preservation</td>
+                  <td id="agg-shape">Reduces dimensions.</td>
+                  <td id="filter-shape">Keeps only matching groups.</td>
+                  <td id="transform-shape">Maintains the original shape.</td>
+                  <td id="apply-shape">Can change the shape depending on the function.</td>
+              </tr>
+              <tr>
+                  <td id="groupby">Supports GroupBy?</td>
+                  <td id="agg-groupby">Yes</td>
+                  <td id="filter-groupby">Yes</td>
+                  <td id="transform-groupby">Yes</td>
+                  <td id="apply-groupby">Yes</td>
+              </tr>
+              <tr>
+                  <td id="behavior">Function Behavior</td>
+                  <td id="agg-behavior">Returns a scalar or a reduced object.</td>
+                  <td id="filter-behavior">Returns True to keep groups, False to drop them.</td>
+                  <td id="transform-behavior">Returns a Series of the same length as the input.</td>
+                  <td id="apply-behavior">Can return any type of object.</td>
+              </tr>
+              <tr>
+                  <td id="example">Example Usage</td>
+                  <td id="agg-example"><code>df.groupby('Category').agg({'Sales': ['sum', 'mean']})</code></td>
+                  <td id="filter-example"><code>df.groupby('Category').filter(lambda x: x['Sales'].sum() > 1000)</code></td>
+                  <td id="transform-example"><code>df.groupby('Category')['Sales'].transform(lambda x: x / x.mean())</code></td>
+                  <td id="apply-example"><code>df.apply(lambda row: row['Sales'] * 2, axis=1)</code></td>
+              </tr>
+              <tr>
+                  <td id="performance">Performance</td>
+                  <td id="agg-performance">Fast for built-in aggregation functions.</td>
+                  <td id="filter-performance">Efficient but can be slow for complex conditions.</td>
+                  <td id="transform-performance">Faster than apply() for element-wise operations.</td>
+                  <td id="apply-performance">Can be slow if used inefficiently.</td>
+              </tr>
+              <tr>
+                  <td id="multi-func">Use with Multiple Functions</td>
+                  <td id="agg-multi">Yes</td>
+                  <td id="filter-multi">No</td>
+                  <td id="transform-multi">No</td>
+                  <td id="apply-multi">Yes</td>
+              </tr>
+              <tr>
+                  <td id="maintains-grouping">Maintains Grouping?</td>
+                  <td id="agg-maintains">No</td>
+                  <td id="filter-maintains">No</td>
+                  <td id="transform-maintains">Yes</td>
+                  <td id="apply-maintains">No</td>
+              </tr>
+          </tbody>
       </table>
-    </section>
+  </div>
 
     <p class="flash-cards-btn" id="flash">
       <a href="flash cards.html" class="btn">Test Your Understanding with Flash Cards</a>
